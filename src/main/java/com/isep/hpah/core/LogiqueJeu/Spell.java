@@ -1,34 +1,19 @@
 package com.isep.hpah.core.LogiqueJeu;
 
-import java.util.*;
 
-public class Spell {
-    private String name;
-    private int damage;
 
+public class Spell extends AbstractSpell {
     private String resultSpell;
 
     public Spell(String name, int damage, String resultSpell) {
-        this.name = name;
-        this.damage = damage;
+        super(name, damage);
         this.resultSpell = resultSpell;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getResultSpell() {
         return resultSpell;
     }
-
 }
-
-
 
         /*public static void main(String args[])
         {

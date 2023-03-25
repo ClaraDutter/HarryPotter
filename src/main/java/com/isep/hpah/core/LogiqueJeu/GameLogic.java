@@ -20,7 +20,7 @@ public class GameLogic {
     }
 
     //method to start the game
-    public static Pet startGame() {
+    public static void startGame() {
         houses = new ArrayList<House>();
         House Hufflepuff = new House("Hufflepuff");
         House Gryffindor = new House("Gryffindor");
@@ -50,11 +50,6 @@ public class GameLogic {
         String name = scanner.nextLine();
         System.out.println("Your name is " + name);
 
-        //get the house for the wizard
-        int n = rand.nextInt(4);// contient un chiffre entre 0-3
-        House house = houses.get(n);
-        System.out.println("The SortingHat is deciding in which house you are...You are in " + house.getName() + " !");
-
         //get the wand for the wizard
         System.out.println("Now, go to the Ollivander shop and discover which wand will you be given !");
         System.out.println("Hello, my name is Ollivander, I am glad to meet you. This is your time to know which wand " +
@@ -64,17 +59,52 @@ public class GameLogic {
         System.out.println("(a wand appears from nowhere) Look " + name + " ,your wand is composed of " + wand.getCore() +
                 " and the size is " + wand.getSize() + "cm.");
 
-        System.out.println("Now, it's time to choose your pet. Are you excited ? Let's go to the shop :)");
 
+        //get the pet for the wizard
+        System.out.println("Now, it's time to choose your pet. Are you excited ? Let's go to the shop :)");
         System.out.println("Choose a pet among this list : ");
         for (Pet pet : Pet.values()) {
-            System.out.println(pet.toString());
+        System.out.println(pet.toString());
         }
 
         String choice = scanner.nextLine();
         Pet chosenPet = Pet.valueOf(choice.toUpperCase());
         System.out.println("Your pet is " + chosenPet);
-        return chosenPet;
-    }
 
+        // resume all the features of the wizard
+        System.out.println("Okay, you have everything that you need for your first day tomorrow at Poudlard. " +
+            "Let's take some rest !");
+
+        System.out.println("(The sun is rising...(first day at school) Don't panic, it's going to be okay." +
+                "You are entering in the Dining Hall." + "You are going to be assigned to one House depending on your" +
+                "personality thanks to the SortingHat.");
+
+        System.out.println("It's your turn ! Go ahead and put the SortingHat on your head.");
+
+        //get the house for the wizard
+        int n = rand.nextInt(4);// contient un chiffre entre 0-3
+        House house = houses.get(n);
+        System.out.println("The SortingHat is deciding in which house you are...You are in " + house.getName() + " !");
+
+        System.out.println("Congratulations! Now you have everything you need to start this adventure :) ");
+
+        //start the level 1
+        Potion healingPotion = new Potion("healingPotion",50,3);
+        Spell useSpell = new Spell("Wingardium Leviosa",30,"The spell used is Wingardium Leviosa, you can use it to throw stones at the troll");
+
+
+
+
+
+
+
+
+
+    }
 }
+
+
+
+
+
+

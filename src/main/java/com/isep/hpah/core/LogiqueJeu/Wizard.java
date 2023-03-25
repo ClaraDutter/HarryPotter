@@ -9,15 +9,18 @@ public class Wizard extends Character {
     private Spell spell;
     private List<Potion> potions;
 
+    private Weapon weapon;
+
 
     public Wizard(String name, int maxhp, int level,
-                  Pet pet, Wand wand, House house, Spell spell, List<Potion> potions) {
+                  Pet pet, Wand wand, House house, Spell spell, List<Potion> potions, Weapon weapon) {
         super(name, maxhp, level);
         this.pet = pet;
         this.wand = wand;
         this.house = house;
         this.potions = potions;
         this.spell = spell;
+        this.weapon = weapon;
     }
 
     public Pet getPet() {
@@ -62,11 +65,6 @@ public class Wizard extends Character {
         return 0;
     }
 
-    //method to choose a random Pet in the enumeration
-    public static void chosePet(Pet pet) {
-        RandomEnum<Pet> r = new RandomEnum<Pet>(Pet.class);
-        System.out.println(r.random());
-    }
 
 
     //method for life recovery
@@ -93,4 +91,12 @@ public class Wizard extends Character {
             System.out.println("You don't have enough potions :(");
         }
     }
+
+    //method to cause more damage if the wizard is Slytherin
+
+
+    //method if the wizard is Gryffindor to resist more to the damages
+
+
+    //method if the wizard is Ravenclaw to be more precise
 }
