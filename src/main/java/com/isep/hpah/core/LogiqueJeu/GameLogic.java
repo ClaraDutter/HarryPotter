@@ -20,7 +20,7 @@ public class GameLogic {
     }
 
     //method to start the game
-    public static void startGame() {
+    public static Pet startGame() {
         houses = new ArrayList<House>();
         House Hufflepuff = new House("Hufflepuff");
         House Gryffindor = new House("Gryffindor");
@@ -66,15 +66,15 @@ public class GameLogic {
 
         System.out.println("Now, it's time to choose your pet. Are you excited ? Let's go to the shop :)");
 
-        Pet chosenAnimal = listAnimal()
+        System.out.println("Choose a pet among this list : ");
+        for (Pet pet : Pet.values()) {
+            System.out.println(pet.toString());
+        }
 
-
-
-
-
-
-
-
-
+        String choice = scanner.nextLine();
+        Pet chosenPet = Pet.valueOf(choice.toUpperCase());
+        System.out.println("Your pet is " + chosenPet);
+        return chosenPet;
     }
+
 }
