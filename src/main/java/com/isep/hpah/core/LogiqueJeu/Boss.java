@@ -9,8 +9,16 @@ public class Boss extends AbstractEnemy {
 
     private Wand wand;
 
-    public Boss(String name, int maxhp, int level) {
-        super(name, maxhp, level);
+
+
+
+    public Boss(String name, int maxhp, int level, String location, int damage ) {
+        super(name, maxhp, level, location, damage);
+        this.name = name;
+        this.maxHp = maxhp;
+        this.level = level;
+        this.location = location;
+        this.damage = damage;
     }
 
     public int getDamage() {

@@ -10,7 +10,11 @@ public class GameLogic {
     static Scanner scanner = new Scanner(System.in);
     private static ArrayList<House> houses;
 
-    static Wizard wizard;
+    private static Wizard wizard;
+    private static Enemy enemy;
+
+    private static int currentLevel = 1;
+
 
     public static Core choiceCore() {
         ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
@@ -89,55 +93,148 @@ public class GameLogic {
 
         System.out.println("Congratulations! Now you have everything you need to start this adventure :) ");
 
-        //initialize everything the wizard needs to start level 1
-        Potion healingPotion = new Potion("healingPotion", 50, 3);
-        Spell useSpell = new Spell("Wingardium Leviosa", 30, "The spell used is Wingardium Leviosa, you can use it to throw stones at the troll");
-
-        //start the level 1
-        class GameManager {
-            private int MAX_LEVEL = 7;
-            private int maxhp = 100;
-            private int Initial_enemy_hp = 100;
-
-            private int currentLevel;
-            private Wizard wizard;
-            private Enemy enemy;
-
-            public GameManager() {
-                wizard = new Wizard(maxhp);
-                currentLevel = 1;
-
-
-                while (currentLevel <= MAX_LEVEL) {
-                    System.out.println("This is the level : " + currentLevel);
-                    enemy = levelEnemy(currentLevel);
-                    playLevel();
-
-                }
-
+        //condition for all the levels
+        while (currentLevel <= 7) {
+            switch (currentLevel) {
+                case 1:
+                    levelOne();
+                    break;
+                case 2:
+                    levelTwo();
+                    break;
+                case 3:
+                    levelThree();
+                    break;
+                case 4:
+                    levelFour();
+                    break;
+                case 5:
+                    levelFive();
+                    break;
+                case 6:
+                    levelSix();
+                    break;
+                case 7:
+                    levelSeven();
+                    break;
             }
-            private Enemy levelEnemy(int currentLevel) {
-                    if (currentLevel == 1) {
-                        return new Enemy("Troll", 100, 10, "I beat you with 10 points of damage", 1);
-                    } else if (currentLevel == 2) {
-                        return new Enemy("Basilisk", 120, 20, "I am going to bite you tssss, 20 points of damage", 2);
-                    } else if (currentLevel == 3) {
-                        return new Enemy("Dementor", 140, 30, "I am going to suck your soul with 30 points of damage", 3);
-                    } else if (currentLevel == 4) {
-                        return new Enemy("Voldemort and Peter Pettigrow", 160, 50, "This is your time to die young wizard, this is a spell with 50 points of damage", 4);
-                    } else if (currentLevel == 5) {
-                        return new Enemy("Dolores Ombrage", 180, 60, "I controll you, don't try to escape me, 60 points of damage", 5);
-                    } else if (currentLevel == 6) {
-                        return new Enemy("Death Eaters", 190, 80, "We are with Voldemort, there is nothing you can do to beat us", 6);
-                    } else if (currentLevel == 7) {
-                        return new Enemy("Voldemort and Bellatrix Lestrange", 200, 100, "We are the final boss, come defy us !", 7);
-                    }
-                    return null;
-                }
-            }
-
+            currentLevel++;
         }
+        System.out.println("Congratulation! You kill all enemies, the game is end :) Hope you enjoy");
+
     }
+
+    //Method for levelOne
+    public static void levelOne() {
+        System.out.println("**** Level One: The Philosopher's Stone ****");
+
+    //initialization for level1
+        Enemy enemy = new Enemy("Troll",100,1, "Toilets of the Donjon", "I dont' know yet", 20);
+        Potion healingPotion = new Potion("healingPotion", 30, 3);
+        Spell spell = new Spell("Wingardium Leviosa", 30,
+                "The spell used is Wingardium Leviosa, " +
+                        "you can use it to throw stones at the troll");
+        int wizardHp = 100;
+        int enemyHp = enemy.getMaxhp();
+        int quantityPotions = 3;
+
+        //loop for the fight whereas one of us is not dead
+        while (wizardHp > 0 && enemyHp > 0) {
+            //Wizard's turn
+            System.out.println("It's your turn. What do you want to do ?");
+            System.out.println("1. Cast a spell");
+            System.out.println("2. Drink a potion");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                System.out.println("You cast the spell " + spell.getName() + " !");
+                enemyHp -= spell.getDamage();
+                System.out.println(spell.getResultSpell());
+            } else if (choice == 2) {
+                if (quantityPotions > 0) {
+                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+                    quantityPotions--;
+                    System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
+                    System.out.println("You now have " + quantityPotions + " potions");
+                } else {
+                    System.out.println("There are no more potions available.");
+                }
+            } else {
+                System.out.println("Invalid choice, you can't play wait for your turn.");
+
+            }
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the enemy is dead
+            if (enemyHp <= 0) {
+                System.out.println("You win against " + enemy.name + " !");
+                break;
+            }
+
+            //Enemy's turn
+            System.out.println("It is the turn of " + enemy.name);
+            wizardHp -= enemy.attack();
+            System.out.println("You lost " + enemy.getDamage() + " healing points");
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the wizard is dead
+            if (wizardHp <= 0) {
+                System.out.println("You have been beaten by " + enemy.name + " !");
+                gameOver();
+                return;
+            }
+        }
+        //end of the fight: the wizard
+        System.out.println("End of the game !");
+        wizardHp = 100;
+        quantityPotions +=2;
+
+
+        currentLevel++;
+    }
+
+    private static void gameOver() {
+    }
+
+    public static void levelTwo() {
+
+        currentLevel++;
+    }
+
+    public static void levelThree() {
+
+        currentLevel++;
+    }
+
+    public static void levelFour() {
+
+        currentLevel++;
+    }
+
+    public static void levelFive() {
+
+        currentLevel++;
+    }
+
+    public static void levelSix() {
+
+        currentLevel++;
+    }
+
+    public static void levelSeven() {
+
+        currentLevel++;
+    }
+
+
+}
 
 
 

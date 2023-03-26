@@ -13,6 +13,12 @@ public class Spell extends AbstractSpell {
     public String getResultSpell() {
         return resultSpell;
     }
+
+    public void setResultSpell(String resultSpell) {
+        this.resultSpell = resultSpell;
+    }
+
+
 }
 
         /*public static void main(String args[])

@@ -3,7 +3,7 @@ package com.isep.hpah.core.LogiqueJeu;
 public abstract class Character {
     //Variables/Attributes all characters have
     public String name;
-    public int maxhp, hp, level;
+    public int maxhp, hp, level, damage;
 
     //Constructor for character
     public Character(String name, int maxhp, int level) {
@@ -13,5 +13,18 @@ public abstract class Character {
         this.level = level;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getMaxhp() {
+        return maxhp;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
     public abstract int attack();
+
 }

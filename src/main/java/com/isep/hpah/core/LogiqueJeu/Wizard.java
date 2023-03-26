@@ -12,7 +12,7 @@ public class Wizard extends Character {
     private Weapon weapon;
 
 
-    public Wizard(int maxhp) {
+    public Wizard(String name, int maxhp, int level) {
         super(name, maxhp, level);
         this.pet = pet;
         this.wand = wand;
@@ -25,6 +25,11 @@ public class Wizard extends Character {
     public Pet getPet() {
         return pet;
     }
+
+    public List<Potion> getPotions() {
+        return potions;
+    }
+
 
     public House getHouse() {
         return house;
@@ -53,6 +58,10 @@ public class Wizard extends Character {
 
     public void setWand(Wand wand) {
         this.wand = wand;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
     }
 
     public int defend() {
