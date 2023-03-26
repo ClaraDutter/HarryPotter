@@ -14,6 +14,9 @@ public class Enemy extends AbstractEnemy {
         this.maxhp = maxhp;
         this.damage = damage;
         this.level = level;
+        this.sentence = sentence;
 
     }
+
+
 }

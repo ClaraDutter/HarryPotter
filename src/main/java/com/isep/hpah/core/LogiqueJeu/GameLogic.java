@@ -19,6 +19,7 @@ public class GameLogic {
         return Core.values()[coreindex];
     }
 
+
     //method to start the game
     public static void startGame() {
         houses = new ArrayList<House>();
@@ -64,7 +65,7 @@ public class GameLogic {
         System.out.println("Now, it's time to choose your pet. Are you excited ? Let's go to the shop :)");
         System.out.println("Choose a pet among this list : ");
         for (Pet pet : Pet.values()) {
-        System.out.println(pet.toString());
+            System.out.println(pet.toString());
         }
 
         String choice = scanner.nextLine();
@@ -73,7 +74,7 @@ public class GameLogic {
 
         // resume all the features of the wizard
         System.out.println("Okay, you have everything that you need for your first day tomorrow at Poudlard. " +
-            "Let's take some rest !");
+                "Let's take some rest !");
 
         System.out.println("(The sun is rising...(first day at school) Don't panic, it's going to be okay." +
                 "You are entering in the Dining Hall." + "You are going to be assigned to one House depending on your" +
@@ -88,20 +89,56 @@ public class GameLogic {
 
         System.out.println("Congratulations! Now you have everything you need to start this adventure :) ");
 
+        //initialize everything the wizard needs to start level 1
+        Potion healingPotion = new Potion("healingPotion", 50, 3);
+        Spell useSpell = new Spell("Wingardium Leviosa", 30, "The spell used is Wingardium Leviosa, you can use it to throw stones at the troll");
+
         //start the level 1
-        Potion healingPotion = new Potion("healingPotion",50,3);
-        Spell useSpell = new Spell("Wingardium Leviosa",30,"The spell used is Wingardium Leviosa, you can use it to throw stones at the troll");
+        class GameManager {
+            private int MAX_LEVEL = 7;
+            private int maxhp = 100;
+            private int Initial_enemy_hp = 100;
+
+            private int currentLevel;
+            private Wizard wizard;
+            private Enemy enemy;
+
+            public GameManager() {
+                wizard = new Wizard(maxhp);
+                currentLevel = 1;
 
 
+                while (currentLevel <= MAX_LEVEL) {
+                    System.out.println("This is the level : " + currentLevel);
+                    enemy = levelEnemy(currentLevel);
+                    playLevel();
 
+                }
 
+            }
+            private Enemy levelEnemy(int currentLevel) {
+                    if (currentLevel == 1) {
+                        return new Enemy("Troll", 100, 10, "I beat you with 10 points of damage", 1);
+                    } else if (currentLevel == 2) {
+                        return new Enemy("Basilisk", 120, 20, "I am going to bite you tssss, 20 points of damage", 2);
+                    } else if (currentLevel == 3) {
+                        return new Enemy("Dementor", 140, 30, "I am going to suck your soul with 30 points of damage", 3);
+                    } else if (currentLevel == 4) {
+                        return new Enemy("Voldemort and Peter Pettigrow", 160, 50, "This is your time to die young wizard, this is a spell with 50 points of damage", 4);
+                    } else if (currentLevel == 5) {
+                        return new Enemy("Dolores Ombrage", 180, 60, "I controll you, don't try to escape me, 60 points of damage", 5);
+                    } else if (currentLevel == 6) {
+                        return new Enemy("Death Eaters", 190, 80, "We are with Voldemort, there is nothing you can do to beat us", 6);
+                    } else if (currentLevel == 7) {
+                        return new Enemy("Voldemort and Bellatrix Lestrange", 200, 100, "We are the final boss, come defy us !", 7);
+                    }
+                    return null;
+                }
+            }
 
-
-
-
-
+        }
     }
-}
+
 
 
 

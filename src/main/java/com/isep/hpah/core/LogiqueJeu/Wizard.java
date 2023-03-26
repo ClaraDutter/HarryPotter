@@ -12,8 +12,7 @@ public class Wizard extends Character {
     private Weapon weapon;
 
 
-    public Wizard(String name, int maxhp, int level,
-                  Pet pet, Wand wand, House house, Spell spell, List<Potion> potions, Weapon weapon) {
+    public Wizard(int maxhp) {
         super(name, maxhp, level);
         this.pet = pet;
         this.wand = wand;
