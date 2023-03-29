@@ -23,6 +23,10 @@ public class Potion {
         return quantity;
     }
 
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
     public void drink(int nbr){
         quantity -= nbr;
     }

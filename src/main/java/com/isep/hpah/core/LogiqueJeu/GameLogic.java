@@ -125,15 +125,17 @@ public class GameLogic {
     }
 
     //Method for levelOne
-    public static boolean levelOne() {
+    public static void levelOne() {
         System.out.println("**** Level One: The Philosopher's Stone ****");
 
         //initialization for level1
+
         Enemy enemy = new Enemy("Troll", 100, 1, "Toilets of the Donjon", "I dont' know yet", 20);
         Potion healingPotion = new Potion("healingPotion", 30, 3);
         Spell spell = new Spell("Wingardium Leviosa", 30,
                 "The spell used is Wingardium Leviosa, " +
                         "you can use it to throw stones at the troll");
+
         int wizardHp = 100;
         int enemyHp = enemy.getMaxhp();
         int quantityPotions = 3;
@@ -148,24 +150,25 @@ public class GameLogic {
             scanner.nextLine();
 
             if (choice == 1) {
-                System.out.println("You cast the spell " + spell.getName() + " !");
-                //int spellDamage = spell.getDamage();
-                // if (wizard.getHouse().equals("Slytherin")) {
-                //spellDamage = (int) (spellDamage * 1.5); // the spell is causing more damage
-                //System.out.println("You are causing more damage because of your house, be proud !");
-                enemyHp -= spell.getDamage();
-                if (enemyHp <= 0) {
-                    enemyHp = 0;
-                    break;
+                if (wizard.getHouse().getName().equals("Slytherin")) {
+                    enemyHp -= (int) (spell.getDamage() * 1.5);
+                } else {
+                    System.out.println("You cast the spell " + spell.getName() + " !");
+                    enemyHp -= spell.getDamage();
+
+                    System.out.println(spell.getResultSpell());
                 }
-                System.out.println(spell.getResultSpell());
 
             } else if (choice == 2) {
                 if (quantityPotions > 0) {
-                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
-                    quantityPotions--;
-                    System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
-                    System.out.println("You now have " + quantityPotions + " potions");
+                    if (wizard.getHouse().getName().equals("Hufflepuff")) {
+                        healingPotion.setHp(40); //potions are more effective for wizards in Hufflepuff
+                    } else {
+                        wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+                        quantityPotions--;
+                        System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
+                        System.out.println("You now have " + quantityPotions + " potions");
+                    }
                 } else {
                     System.out.println("There are no more potions available.");
                 }
@@ -186,6 +189,14 @@ public class GameLogic {
 
             //Enemy's turn
             System.out.println("It is the turn of " + enemy.name);
+            int enemyDamage = enemy.attack();
+            if (wizard.getHouse().getName().equals("Gryffondor")) {
+                enemyDamage = (int) (enemyDamage * 0.8);
+                System.out.println("You are resisting better because of your house");
+            } else if (wizard.getHouse().getName().equals("Ravenclaw")) {
+                enemyDamage = (int) (enemyDamage * 1.2);
+                System.out.println();
+            }
             wizardHp -= enemy.attack();
             System.out.println("You lost " + enemy.getDamage() + " healing points");
 
@@ -197,7 +208,7 @@ public class GameLogic {
             if (wizardHp <= 0) {
                 System.out.println("You have been beaten by " + enemy.name + " !");
                 gameOver();
-                return false;
+                return;
             }
         }
 
@@ -206,11 +217,10 @@ public class GameLogic {
         System.out.println("");
         wizardHp = 150;
         quantityPotions += 2;
-        return true;
     }
 
 
-    public static boolean levelTwo() {
+    public static void levelTwo() {
         System.out.println("**** Level Two: The Chamber of Secrets ****");
         System.out.println("");
         //initialization for level1
@@ -236,11 +246,6 @@ public class GameLogic {
             scanner.nextLine();
 
             if (choice == 1) {
-                int spellDamage = spell.getDamage();
-                if (wizard.getHouse().equals("Slytherin")) {
-                    spellDamage = (int) Math.round(spellDamage * 1.2);
-                    System.out.println("You are causing more damage because of your house, be proud !");
-                }
                 System.out.println("You cast the spell " + spell.getName() + " !");
                 enemyHp -= spell.getDamage();
                 if (enemyHp <= 0) {
@@ -248,19 +253,12 @@ public class GameLogic {
                     break;
                 }
                 String spellResult = (spell.getResultSpell());
-                if (wizard.getHouse().equals("Ravenclaw")) {
-                    spellResult += "The spell was especially accurate because you are Ravenclaw";
-                }
-                System.out.println(spellResult);
 
 
             } else if (choice == 2) {
                 if (quantityPotions > 0) {
-                    if (wizard.getHouse().equals("Hufflepuff")) {
-                        wizard.drinkPotion(healingPotion);
-                    } else {
-                        wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
-                    }
+
+                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
                     quantityPotions--;
                     System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
                     System.out.println("You now have " + quantityPotions + " potions");
@@ -299,7 +297,7 @@ public class GameLogic {
             if (wizardHp <= 0) {
                 System.out.println("You have been beaten by " + enemy.name + " !");
                 gameOver();
-                return false;
+                return;
             }
         }
 
@@ -308,33 +306,451 @@ public class GameLogic {
         System.out.println("");
         wizardHp = 150;
         quantityPotions += 2;
-        return true;
     }
 
 
     public static void levelThree() {
+        System.out.println("**** Level Three: Lake in the Forbidden Forest ****");
+        System.out.println("");
 
-        currentLevel++;
+        //initialization for level"
+        Enemy enemy = new Enemy("Dementors", 150, 3, "Lake in the Forbidden Forest", "I dont' know yet", 50);
+        Potion healingPotion = new Potion("healingPotion", 30, 3);
+        Spell spell = new Spell("Expecto Patronum", 60,
+                "The spell used is Expecto Patronum, " +
+                        "you can use it to make appear your Patronus");
+
+        int wizardHp = 150;
+        int enemyHp = enemy.getMaxhp();
+        int quantityPotions = 5;
+
+        //loop for the fight whereas one of us is not dead
+        while (wizardHp > 0 && enemyHp > 0) {
+            //Wizard's turn
+            System.out.println("It's your turn. What do you want to do ?");
+            System.out.println("1. Cast a spell");
+            System.out.println("2. Drink a potion");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                System.out.println("You cast the spell " + spell.getName() + " !");
+                enemyHp -= spell.getDamage();
+                if (enemyHp <= 0) {
+                    enemyHp = 0;
+                    break;
+                }
+                String spellResult = (spell.getResultSpell());
+
+
+            } else if (choice == 2) {
+                if (quantityPotions > 0) {
+
+                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+                    quantityPotions--;
+                    System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
+                    System.out.println("You now have " + quantityPotions + " potions");
+                } else {
+                    System.out.println("There are no more potions available.");
+                }
+
+            } else if (choice == 3) {
+                System.out.println("You use your " + weapon.getName() + " !");
+                enemyHp -= weapon.getDamage();
+            } else {
+                System.out.println("Invalid choice, you can't play wait for your turn.");
+
+            }
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the enemy is dead
+            if (enemyHp <= 0) {
+                System.out.println("You win against " + enemy.name + " !");
+                break;
+            }
+
+            //Enemy's turn
+            System.out.println("It is the turn of " + enemy.name);
+            wizardHp -= enemy.attack();
+            System.out.println("You lost " + enemy.getDamage() + " healing points");
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the wizard is dead
+            if (wizardHp <= 0) {
+                System.out.println("You have been beaten by " + enemy.name + " !");
+                gameOver();
+                return;
+            }
+        }
+
+        //end of the fight: the wizard
+        System.out.println("End of the game !");
+        System.out.println("");
+        wizardHp = 150;
+        quantityPotions += 2;
     }
 
     public static void levelFour() {
+        System.out.println("**** Level Two: The Chamber of Secrets ****");
+        System.out.println("");
+        //initialization for level1
+        Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
+        Potion healingPotion = new Potion("healingPotion", 30, 3);
+        Spell spell = new Spell("Accio", 40,
+                "The spell used is Accio, " +
+                        "you can use it to catch le Croc of the Basilik");
+        Weapon weapon = new Weapon("Sword Of Gryffondor", 50);
+        int wizardHp = 150;
+        int enemyHp = enemy.getMaxhp();
+        int quantityPotions = 5;
 
-        currentLevel++;
+        //loop for the fight whereas one of us is not dead
+        while (wizardHp > 0 && enemyHp > 0) {
+            //Wizard's turn
+            System.out.println("It's your turn. What do you want to do ?");
+            System.out.println("1. Cast a spell");
+            System.out.println("2. Drink a potion");
+            System.out.println("3. Use a weapon");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                System.out.println("You cast the spell " + spell.getName() + " !");
+                enemyHp -= spell.getDamage();
+                if (enemyHp <= 0) {
+                    enemyHp = 0;
+                    break;
+                }
+                String spellResult = (spell.getResultSpell());
+
+
+            } else if (choice == 2) {
+                if (quantityPotions > 0) {
+
+                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+                    quantityPotions--;
+                    System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
+                    System.out.println("You now have " + quantityPotions + " potions");
+                } else {
+                    System.out.println("There are no more potions available.");
+                }
+
+            } else if (choice == 3) {
+                System.out.println("You use your " + weapon.getName() + " !");
+                enemyHp -= weapon.getDamage();
+            } else {
+                System.out.println("Invalid choice, you can't play wait for your turn.");
+
+            }
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the enemy is dead
+            if (enemyHp <= 0) {
+                System.out.println("You win against " + enemy.name + " !");
+                break;
+            }
+
+            //Enemy's turn
+            System.out.println("It is the turn of " + enemy.name);
+            wizardHp -= enemy.attack();
+            System.out.println("You lost " + enemy.getDamage() + " healing points");
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the wizard is dead
+            if (wizardHp <= 0) {
+                System.out.println("You have been beaten by " + enemy.name + " !");
+                gameOver();
+                return;
+            }
+        }
+
+        //end of the fight: the wizard
+        System.out.println("End of the game !");
+        System.out.println("");
+        wizardHp = 150;
+        quantityPotions += 2;
     }
+
 
     public static void levelFive() {
+        System.out.println("**** Level Two: The Chamber of Secrets ****");
+        System.out.println("");
+        //initialization for level1
+        Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
+        Potion healingPotion = new Potion("healingPotion", 30, 3);
+        Spell spell = new Spell("Accio", 40,
+                "The spell used is Accio, " +
+                        "you can use it to catch le Croc of the Basilik");
+        Weapon weapon = new Weapon("Sword Of Gryffondor", 50);
+        int wizardHp = 150;
+        int enemyHp = enemy.getMaxhp();
+        int quantityPotions = 5;
 
-        currentLevel++;
+        //loop for the fight whereas one of us is not dead
+        while (wizardHp > 0 && enemyHp > 0) {
+            //Wizard's turn
+            System.out.println("It's your turn. What do you want to do ?");
+            System.out.println("1. Cast a spell");
+            System.out.println("2. Drink a potion");
+            System.out.println("3. Use a weapon");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                System.out.println("You cast the spell " + spell.getName() + " !");
+                enemyHp -= spell.getDamage();
+                if (enemyHp <= 0) {
+                    enemyHp = 0;
+                    break;
+                }
+                String spellResult = (spell.getResultSpell());
+
+
+            } else if (choice == 2) {
+                if (quantityPotions > 0) {
+
+                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+                    quantityPotions--;
+                    System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
+                    System.out.println("You now have " + quantityPotions + " potions");
+                } else {
+                    System.out.println("There are no more potions available.");
+                }
+
+            } else if (choice == 3) {
+                System.out.println("You use your " + weapon.getName() + " !");
+                enemyHp -= weapon.getDamage();
+            } else {
+                System.out.println("Invalid choice, you can't play wait for your turn.");
+
+            }
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the enemy is dead
+            if (enemyHp <= 0) {
+                System.out.println("You win against " + enemy.name + " !");
+                break;
+            }
+
+            //Enemy's turn
+            System.out.println("It is the turn of " + enemy.name);
+            wizardHp -= enemy.attack();
+            System.out.println("You lost " + enemy.getDamage() + " healing points");
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the wizard is dead
+            if (wizardHp <= 0) {
+                System.out.println("You have been beaten by " + enemy.name + " !");
+                gameOver();
+                return;
+            }
+        }
+
+        //end of the fight: the wizard
+        System.out.println("End of the game !");
+        System.out.println("");
+        wizardHp = 150;
+        quantityPotions += 2;
     }
+
 
     public static void levelSix() {
+        System.out.println("**** Level Two: The Chamber of Secrets ****");
+        System.out.println("");
+        //initialization for level1
+        Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
+        Potion healingPotion = new Potion("healingPotion", 30, 3);
+        Spell spell = new Spell("Accio", 40,
+                "The spell used is Accio, " +
+                        "you can use it to catch le Croc of the Basilik");
+        Weapon weapon = new Weapon("Sword Of Gryffondor", 50);
+        int wizardHp = 150;
+        int enemyHp = enemy.getMaxhp();
+        int quantityPotions = 5;
 
-        currentLevel++;
+        //loop for the fight whereas one of us is not dead
+        while (wizardHp > 0 && enemyHp > 0) {
+            //Wizard's turn
+            System.out.println("It's your turn. What do you want to do ?");
+            System.out.println("1. Cast a spell");
+            System.out.println("2. Drink a potion");
+            System.out.println("3. Use a weapon");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                System.out.println("You cast the spell " + spell.getName() + " !");
+                enemyHp -= spell.getDamage();
+                if (enemyHp <= 0) {
+                    enemyHp = 0;
+                    break;
+                }
+                String spellResult = (spell.getResultSpell());
+
+
+            } else if (choice == 2) {
+                if (quantityPotions > 0) {
+
+                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+                    quantityPotions--;
+                    System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
+                    System.out.println("You now have " + quantityPotions + " potions");
+                } else {
+                    System.out.println("There are no more potions available.");
+                }
+
+            } else if (choice == 3) {
+                System.out.println("You use your " + weapon.getName() + " !");
+                enemyHp -= weapon.getDamage();
+            } else {
+                System.out.println("Invalid choice, you can't play wait for your turn.");
+
+            }
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the enemy is dead
+            if (enemyHp <= 0) {
+                System.out.println("You win against " + enemy.name + " !");
+                break;
+            }
+
+            //Enemy's turn
+            System.out.println("It is the turn of " + enemy.name);
+            wizardHp -= enemy.attack();
+            System.out.println("You lost " + enemy.getDamage() + " healing points");
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the wizard is dead
+            if (wizardHp <= 0) {
+                System.out.println("You have been beaten by " + enemy.name + " !");
+                gameOver();
+                return;
+            }
+        }
+
+        //end of the fight: the wizard
+        System.out.println("End of the game !");
+        System.out.println("");
+        wizardHp = 150;
+        quantityPotions += 2;
     }
 
-    public static void levelSeven() {
 
-        currentLevel++;
+
+    public static void levelSeven() {
+        System.out.println("**** Level Two: The Chamber of Secrets ****");
+        System.out.println("");
+        //initialization for level1
+        Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
+        Potion healingPotion = new Potion("healingPotion", 30, 3);
+        Spell spell = new Spell("Accio", 40,
+                "The spell used is Accio, " +
+                        "you can use it to catch le Croc of the Basilik");
+        Weapon weapon = new Weapon("Sword Of Gryffondor", 50);
+        int wizardHp = 150;
+        int enemyHp = enemy.getMaxhp();
+        int quantityPotions = 5;
+
+        //loop for the fight whereas one of us is not dead
+        while (wizardHp > 0 && enemyHp > 0) {
+            //Wizard's turn
+            System.out.println("It's your turn. What do you want to do ?");
+            System.out.println("1. Cast a spell");
+            System.out.println("2. Drink a potion");
+            System.out.println("3. Use a weapon");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                System.out.println("You cast the spell " + spell.getName() + " !");
+                enemyHp -= spell.getDamage();
+                if (enemyHp <= 0) {
+                    enemyHp = 0;
+                    break;
+                }
+                String spellResult = (spell.getResultSpell());
+
+
+            } else if (choice == 2) {
+                if (quantityPotions > 0) {
+
+                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+                    quantityPotions--;
+                    System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
+                    System.out.println("You now have " + quantityPotions + " potions");
+                } else {
+                    System.out.println("There are no more potions available.");
+                }
+
+            } else if (choice == 3) {
+                System.out.println("You use your " + weapon.getName() + " !");
+                enemyHp -= weapon.getDamage();
+            } else {
+                System.out.println("Invalid choice, you can't play wait for your turn.");
+
+            }
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the enemy is dead
+            if (enemyHp <= 0) {
+                System.out.println("You win against " + enemy.name + " !");
+                break;
+            }
+
+            //Enemy's turn
+            System.out.println("It is the turn of " + enemy.name);
+            wizardHp -= enemy.attack();
+            System.out.println("You lost " + enemy.getDamage() + " healing points");
+
+            //display the total of each character
+            System.out.println("Enemy's healing points: " + enemyHp);
+            System.out.println("Your healing points: " + wizardHp);
+
+            //we verify if the wizard is dead
+            if (wizardHp <= 0) {
+                System.out.println("You have been beaten by " + enemy.name + " !");
+                gameOver();
+                return;
+            }
+        }
+
+        //end of the fight: the wizard
+        System.out.println("End of the game !");
+        System.out.println("");
+        wizardHp = 150;
+        quantityPotions += 2;
     }
 
 
