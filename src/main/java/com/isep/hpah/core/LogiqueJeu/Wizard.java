@@ -1,8 +1,10 @@
 package com.isep.hpah.core.LogiqueJeu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Wizard extends Character {
+    private final Pet chosenPet;
     private Pet pet;
     private Wand wand;
     private House house;
@@ -11,15 +13,19 @@ public class Wizard extends Character {
 
     private Weapon weapon;
 
+    private List<Item> inventory;
 
-    public Wizard(String name, int maxhp, int level, Pet pet, Wand wand, House house, Potion potions, Spell spell, Weapon weapon) {
-        super(name, maxhp, level);
-        this.pet = pet;
+    public void addToInventory(Item item) {
+        this.inventory.add(item);
+        System.out.println(item.getName() + "has been added to your inventory");
+    }
+
+
+    public Wizard(String wizardName, Wand wand, Pet chosenPet, House house) {
+        super(wizardName);
+        this.chosenPet = pet;
         this.wand = wand;
         this.house = house;
-        this.potions = (List<Potion>) potions;
-        this.spell = spell;
-        this.weapon = weapon;
     }
 
     public Pet getPet() {
@@ -103,6 +109,10 @@ public class Wizard extends Character {
             System.out.println("You don't have enough potions :(");
         }
     }
+
+    public void addToInventory(String fireworks, int fireworks1) {
+    }
+
 
     //method to cause more damage if the wizard is Slytherin
 

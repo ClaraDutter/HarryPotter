@@ -6,7 +6,7 @@ public abstract class Character {
     public int maxhp, hp, level, damage;
 
     //Constructor for character
-    public Character(String name, int maxhp, int level) {
+    public Character(String name) {
         this.name = name;
         this.hp = maxhp;
         this.maxhp = maxhp;

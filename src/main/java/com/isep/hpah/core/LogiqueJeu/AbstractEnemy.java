@@ -8,7 +8,7 @@ public abstract class AbstractEnemy extends Character {
     public String location;
 
     public AbstractEnemy(String name, int maxhp, int level, String location, int damage) {
-        super(name, maxhp, level);
+        super(name);
         this.name = name;
         this.maxhp = maxhp;
         this.level = level;

@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 
+
 public class GameLogic {
     static Scanner scanner = new Scanner(System.in);
     private static ArrayList<House> houses;
@@ -39,6 +40,7 @@ public class GameLogic {
 
         boolean gameName = false;
         Random rand = new Random();
+        Wizard wizard1;
 
         //print title screen
         System.out.println("Harry Potter at Home");
@@ -93,6 +95,12 @@ public class GameLogic {
 
         System.out.println("Congratulations! Now you have everything you need to start this adventure :) ");
 
+        wizard = new Wizard(wizardName, wand, chosenPet, house );
+        System.out.println(wizard.getHouse());
+
+        //print wizard information
+
+
         //condition for all the levels
         while (currentLevel <= 7) {
             switch (currentLevel) {
@@ -129,7 +137,6 @@ public class GameLogic {
         System.out.println("**** Level One: The Philosopher's Stone ****");
 
         //initialization for level1
-
         Enemy enemy = new Enemy("Troll", 100, 1, "Toilets of the Donjon", "I dont' know yet", 20);
         Potion healingPotion = new Potion("healingPotion", 30, 3);
         Spell spell = new Spell("Wingardium Leviosa", 30,
@@ -150,7 +157,7 @@ public class GameLogic {
             scanner.nextLine();
 
             if (choice == 1) {
-                if (wizard.getHouse().getName().equals("Slytherin")) {
+                if (wizard.getHouse().equals("Slytherin")) {
                     enemyHp -= (int) (spell.getDamage() * 1.5);
                 } else {
                     System.out.println("You cast the spell " + spell.getName() + " !");
@@ -158,24 +165,21 @@ public class GameLogic {
 
                     System.out.println(spell.getResultSpell());
                 }
-
-            } else if (choice == 2) {
+            }
+            else if (choice == 2) {
                 if (quantityPotions > 0) {
-                    if (wizard.getHouse().getName().equals("Hufflepuff")) {
-                        healingPotion.setHp(40); //potions are more effective for wizards in Hufflepuff
-                    } else {
-                        wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
-                        quantityPotions--;
-                        System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
-                        System.out.println("You now have " + quantityPotions + " potions");
-                    }
+                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+                    quantityPotions--;
+                    System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
+                    System.out.println("You now have " + quantityPotions + " potions");
+
                 } else {
                     System.out.println("There are no more potions available.");
                 }
             } else {
                 System.out.println("Invalid choice, you can't play wait for your turn.");
-
             }
+
 
             //display the total of each character
             System.out.println("Enemy's healing points: " + enemyHp);
@@ -223,6 +227,7 @@ public class GameLogic {
     public static void levelTwo() {
         System.out.println("**** Level Two: The Chamber of Secrets ****");
         System.out.println("");
+
         //initialization for level1
         Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
         Potion healingPotion = new Potion("healingPotion", 30, 3);
@@ -310,7 +315,7 @@ public class GameLogic {
 
 
     public static void levelThree() {
-        System.out.println("**** Level Three: Lake in the Forbidden Forest ****");
+        System.out.println("**** Level Three: The Prisonner of Azkaban ****");
         System.out.println("");
 
         //initialization for level"
@@ -354,13 +359,6 @@ public class GameLogic {
                 } else {
                     System.out.println("There are no more potions available.");
                 }
-
-            } else if (choice == 3) {
-                System.out.println("You use your " + weapon.getName() + " !");
-                enemyHp -= weapon.getDamage();
-            } else {
-                System.out.println("Invalid choice, you can't play wait for your turn.");
-
             }
 
             //display the total of each character
@@ -398,7 +396,7 @@ public class GameLogic {
     }
 
     public static void levelFour() {
-        System.out.println("**** Level Two: The Chamber of Secrets ****");
+        System.out.println("**** Level Four: The Goblet of Fire ****");
         System.out.println("");
         //initialization for level1
         Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
@@ -487,7 +485,7 @@ public class GameLogic {
 
 
     public static void levelFive() {
-        System.out.println("**** Level Two: The Chamber of Secrets ****");
+        System.out.println("**** Level Five: The Order of the Phoenix ****");
         System.out.println("");
         //initialization for level1
         Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
@@ -499,6 +497,7 @@ public class GameLogic {
         int wizardHp = 150;
         int enemyHp = enemy.getMaxhp();
         int quantityPotions = 5;
+        int fireworks = 5;
 
         //loop for the fight whereas one of us is not dead
         while (wizardHp > 0 && enemyHp > 0) {
@@ -547,6 +546,8 @@ public class GameLogic {
             //we verify if the enemy is dead
             if (enemyHp <= 0) {
                 System.out.println("You win against " + enemy.name + " !");
+                fireworks++;
+                wizard.addToInventory("Fireworks", fireworks);
                 break;
             }
 
@@ -570,13 +571,15 @@ public class GameLogic {
         //end of the fight: the wizard
         System.out.println("End of the game !");
         System.out.println("");
+
         wizardHp = 150;
         quantityPotions += 2;
     }
 
 
+
     public static void levelSix() {
-        System.out.println("**** Level Two: The Chamber of Secrets ****");
+        System.out.println("**** Level Six: The Half-Blood Prince ****");
         System.out.println("");
         //initialization for level1
         Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
@@ -588,6 +591,17 @@ public class GameLogic {
         int wizardHp = 150;
         int enemyHp = enemy.getMaxhp();
         int quantityPotions = 5;
+
+        //proposition to wizard to join the Death Eaters if he is from Slytherin
+        if (wizard.getHouse().equals("Slytherin")) {
+            System.out.println("As a Slytherin, you can join if you want the Death Eaters's team.");
+            System.out.println("Do you want it ? If this case, you become an ally of Voldemort and the game is finished (yes/no)");
+            String choice = scanner.nextLine();
+            if (choice.equals("yes")) {
+                System.out.println("You have joined the Death Eaters. End of the game, replay to have a different ending :) ");
+                return;
+            }
+        }
 
         //loop for the fight whereas one of us is not dead
         while (wizardHp > 0 && enemyHp > 0) {
@@ -666,7 +680,7 @@ public class GameLogic {
 
 
     public static void levelSeven() {
-        System.out.println("**** Level Two: The Chamber of Secrets ****");
+        System.out.println("**** Level Seven: The Deathly Hallows ****");
         System.out.println("");
         //initialization for level1
         Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
