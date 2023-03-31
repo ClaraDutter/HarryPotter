@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Wizard extends Character {
-    private final Pet chosenPet;
     private Pet pet;
     private Wand wand;
     private House house;
@@ -20,12 +19,12 @@ public class Wizard extends Character {
         System.out.println(item.getName() + "has been added to your inventory");
     }
 
-
-    public Wizard(String wizardName, Wand wand, Pet chosenPet, House house) {
-        super(wizardName);
-        this.chosenPet = pet;
+    public Wizard(String name, int maxhp, int level, int damage, Pet pet, Wand wand, House house ) {
+        super(name, maxhp, level, damage);
+        this.pet = pet;
         this.wand = wand;
         this.house = house;
+        this.potions = new ArrayList<>();
     }
 
     public Pet getPet() {
@@ -99,7 +98,9 @@ public class Wizard extends Character {
         if(potion.getQuantity() > 0) {
 
             if ((this.house.getName()).equals("Hufflepuff")) {
-                heal((int) (potion.getHp()*1.2));
+                System.out.println("huff");
+
+                heal(potion.getHp() + 20);
             } else {
                 heal(potion.getHp());
             }

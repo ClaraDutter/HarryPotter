@@ -11,6 +11,11 @@ public class Potion {
         this.quantity = quantity;
     }
 
+    public static Potion potion1(){
+        return new Potion("Potion1", 20, 2);
+    }
+
+
     public String getName() {
         return name;
     }

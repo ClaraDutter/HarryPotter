@@ -54,16 +54,21 @@ public class GameLogic {
 
         //get the name of the player for his/her wizard
         System.out.println("\nWhat is your wizard's name ?");
-        String wizardName = scanner.nextLine();
-        System.out.println("Your name is " + wizardName);
+        String name = scanner.nextLine();
+        Pet petName = null;
+        Wand wand = null;
+        House house = null;
+        wizard = new Wizard(name, 100, 1, 0, petName, wand, house);
+        System.out.println("Your name is " + name);
 
         //get the wand for the wizard
         System.out.println("Now, go to the Ollivander shop and discover which wand will you be given !");
         System.out.println("Hello, my name is Ollivander, I am glad to meet you. This is your time to know which wand " +
                 "corresponds to you. For that, don't think about anything and let the magic begins...");
-        Wand wand = new Wand(choiceCore(), 20);
+        wand = new Wand(choiceCore(), 20);
+        wizard.setWand(wand);
 
-        System.out.println("(a wand appears from nowhere) Look " + wizardName + " ,your wand is composed of " + wand.getCore() +
+        System.out.println("(a wand appears from nowhere) Look " + name + " ,your wand is composed of " + wand.getCore() +
                 " and the size is " + wand.getSize() + "cm.");
 
 
@@ -75,8 +80,9 @@ public class GameLogic {
         }
 
         String choice = scanner.nextLine();
-        Pet chosenPet = Pet.valueOf(choice.toUpperCase());
-        System.out.println("Your pet is " + chosenPet);
+        petName= Pet.valueOf(choice.toUpperCase());
+        wizard.setPet(petName);
+        System.out.println("Your pet is " + petName);
 
         // resume all the features of the wizard
         System.out.println("Okay, you have everything that you need for your first day tomorrow at Poudlard. " +
@@ -90,13 +96,12 @@ public class GameLogic {
 
         //get the house for the wizard
         int n = rand.nextInt(4);// contient un chiffre entre 0-3
-        House house = houses.get(n);
-        System.out.println("The SortingHat is deciding in which house you are...You are in " + house.getName() + " !");
+        house = houses.get(n);
+        wizard.setHouse(house);
+        System.out.println("The SortingHat is deciding in which house you are...You are in " + house + " !");
 
         System.out.println("Congratulations! Now you have everything you need to start this adventure :) ");
 
-        wizard = new Wizard(wizardName, wand, chosenPet, house );
-        System.out.println(wizard.getHouse());
 
         //print wizard information
 
@@ -157,7 +162,8 @@ public class GameLogic {
             scanner.nextLine();
 
             if (choice == 1) {
-                if (wizard.getHouse().equals("Slytherin")) {
+                System.out.println("house " + wizard.getHouse().getName());
+                if (wizard.getHouse().getName().equals("Slytherin")) {
                     enemyHp -= (int) (spell.getDamage() * 1.5);
                 } else {
                     System.out.println("You cast the spell " + spell.getName() + " !");
@@ -168,10 +174,14 @@ public class GameLogic {
             }
             else if (choice == 2) {
                 if (quantityPotions > 0) {
-                    wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
+
+                    wizard.drinkPotion(Potion.potion1());
+
+
+                    /*wizardHp = Math.min(wizardHp + healingPotion.getHp(), 100);
                     quantityPotions--;
                     System.out.println("You can drink this potion and take back " + healingPotion.getHp() + " healing points.");
-                    System.out.println("You now have " + quantityPotions + " potions");
+                    System.out.println("You now have " + quantityPotions + " potions");*/
 
                 } else {
                     System.out.println("There are no more potions available.");
