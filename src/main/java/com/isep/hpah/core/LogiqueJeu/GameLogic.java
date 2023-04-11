@@ -172,6 +172,7 @@ public class GameLogic {
                     System.out.println(spell.getResultSpell());
                 }
             }
+
             else if (choice == 2) {
                 if (quantityPotions > 0) {
 
@@ -401,20 +402,19 @@ public class GameLogic {
         //end of the fight: the wizard
         System.out.println("End of the game !");
         System.out.println("");
-        wizardHp = 150;
-        quantityPotions += 2;
+        wizardHp = 200;
+        quantityPotions += 3;
     }
 
     public static void levelFour() {
         System.out.println("**** Level Four: The Goblet of Fire ****");
         System.out.println("");
         //initialization for level1
-        Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
+        Enemy enemy = new Enemy("Voldemort and Peter Pettigrow", 120, 4, "Graveyard of Little Hangleton", "I dont' know yet", 20);
         Potion healingPotion = new Potion("healingPotion", 30, 3);
         Spell spell = new Spell("Accio", 40,
                 "The spell used is Accio, " +
-                        "you can use it to catch le Croc of the Basilik");
-        Weapon weapon = new Weapon("Sword Of Gryffondor", 50);
+                        "you can use it to attract the Portolion");
         int wizardHp = 150;
         int enemyHp = enemy.getMaxhp();
         int quantityPotions = 5;
@@ -450,13 +450,6 @@ public class GameLogic {
                 } else {
                     System.out.println("There are no more potions available.");
                 }
-
-            } else if (choice == 3) {
-                System.out.println("You use your " + weapon.getName() + " !");
-                enemyHp -= weapon.getDamage();
-            } else {
-                System.out.println("Invalid choice, you can't play wait for your turn.");
-
             }
 
             //display the total of each character
@@ -498,7 +491,7 @@ public class GameLogic {
         System.out.println("**** Level Five: The Order of the Phoenix ****");
         System.out.println("");
         //initialization for level1
-        Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
+        Enemy enemy = new Enemy("Dolores Ombrage", 120, 5, "Hogwarts Exam Hall", "I dont' know yet", 20);
         Potion healingPotion = new Potion("healingPotion", 30, 3);
         Spell spell = new Spell("Accio", 40,
                 "The spell used is Accio, " +
@@ -592,12 +585,12 @@ public class GameLogic {
         System.out.println("**** Level Six: The Half-Blood Prince ****");
         System.out.println("");
         //initialization for level1
-        Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
+        Enemy enemy = new Enemy("The Eath Eaters", 120, 6, "Astronomy Tower", "I dont' know yet", 20);
         Potion healingPotion = new Potion("healingPotion", 30, 3);
-        Spell spell = new Spell("Accio", 40,
-                "The spell used is Accio, " +
-                        "you can use it to catch le Croc of the Basilik");
-        Weapon weapon = new Weapon("Sword Of Gryffondor", 50);
+        Spell spell = new Spell("Sectumsempra", 40,
+                "The spell used is Sectumsempra, " +
+                        "you can use it to kill the Death Eaters");
+
         int wizardHp = 150;
         int enemyHp = enemy.getMaxhp();
         int quantityPotions = 5;
@@ -644,13 +637,6 @@ public class GameLogic {
                 } else {
                     System.out.println("There are no more potions available.");
                 }
-
-            } else if (choice == 3) {
-                System.out.println("You use your " + weapon.getName() + " !");
-                enemyHp -= weapon.getDamage();
-            } else {
-                System.out.println("Invalid choice, you can't play wait for your turn.");
-
             }
 
             //display the total of each character
@@ -693,12 +679,12 @@ public class GameLogic {
         System.out.println("**** Level Seven: The Deathly Hallows ****");
         System.out.println("");
         //initialization for level1
-        Enemy enemy = new Enemy("Basilik", 120, 2, "Chamber of Secrets", "I dont' know yet", 20);
+        Enemy enemy = new Enemy("Voldemort and Bellatrix Lestrange", 120, 7, "Chamber of Secrets", "I dont' know yet", 20);
         Potion healingPotion = new Potion("healingPotion", 30, 3);
-        Spell spell = new Spell("Accio", 40,
+        Spell spell = new Spell("Ava Kedavra", 40,
                 "The spell used is Accio, " +
                         "you can use it to catch le Croc of the Basilik");
-        Weapon weapon = new Weapon("Sword Of Gryffondor", 50);
+
         int wizardHp = 150;
         int enemyHp = enemy.getMaxhp();
         int quantityPotions = 5;
@@ -734,13 +720,6 @@ public class GameLogic {
                 } else {
                     System.out.println("There are no more potions available.");
                 }
-
-            } else if (choice == 3) {
-                System.out.println("You use your " + weapon.getName() + " !");
-                enemyHp -= weapon.getDamage();
-            } else {
-                System.out.println("Invalid choice, you can't play wait for your turn.");
-
             }
 
             //display the total of each character
